@@ -31,6 +31,30 @@ app.get("/pastes", async (req, res) => {
   res.json(dbres.rows);
 });
 
+/*app.post("/pastes", async (req, res) => {
+  const dbres = await client.query('select * from pastebin');
+  res.json(dbres.rows);
+});
+*/
+app.post("/pastes", async (req, res) => {
+  try {
+    const { snippet, owner } = req.body; // this takes JSON data to use
+    const newSnippet = await client.query
+      (
+        "insert into pastebin (snippet, owner) values ($1, $2) returning *", [snippet, owner]
+      )
+    // returning * always do this when updating or deleting to return back the data
+    res.json(newSnippet.rows); // * newTodo.rows[0] will return item added
+    console.log("We added a new task")
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).send("sorry bud, error on server")
+    console.log("didnt work mate");
+  }
+})
+
+
 
 //Start the server on the given port
 const port = process.env.PORT;
