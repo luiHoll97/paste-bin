@@ -30,7 +30,7 @@ app.get("/pastes", async (req, res) => {
 
   // hey database (client - has connection string which is unique to DB and a ssl key for access), 
   // we're gunna pass you a query(some SQL)
-  const dbres = await client.query('select * from pastebin order by paste_id asc');
+  const dbres = await client.query('select * from pastebin order by posted desc');
   // when you've done that, can you give me back the results of the query and only give me the rows
   // from the database?
   res.json(dbres.rows);
