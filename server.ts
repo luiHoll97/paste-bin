@@ -95,10 +95,10 @@ app.delete("/pastes/:id", async (req, res) => {
 
 app.post("/pastes", async (req, res) => {
   try {
-    const { snippet, owner } = req.body; // this takes JSON data to use
+    const { snippet, owner, posted } = req.body; // this takes JSON data to use
     const newSnippet = await client.query
       (
-        "insert into pastebin (snippet, owner) values ($1, $2) returning *", [snippet, owner]
+        "insert into pastebin (snippet, owner, posted) values ($1, $2, $3) returning *", [snippet, owner, posted]
       )
     // returning * always do this when updating or deleting to return back the data
     res.json(newSnippet.rows); // * newTodo.rows[0] will return item added
